@@ -1,0 +1,91 @@
+---
+title: "02_Summary"
+author: "Anjali Gupta"
+date: "23 April 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(skimr)
+library(summarytools)
+library(Hmisc) #Not used in the output file at the moment
+library(xlsx)
+library(stringi)
+```
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 80)
+```
+
+*PURPOSE*
+
+This code creates a detailed **Exploratory Analysis** report for any dataset.
+
+*OUTPUT*
+
+The output is saved in an excel workbook, where the first worksheet summarises all the fields present in the dataset. The subsequent worksheets summarise individual variables in the dataset.
+
+*REQUIREMENT*
+
+Specify the input file name in the below R chunk.
+
+## Read Data
+
+```{r, echo = FALSE}
+data_eda <- mpg
+#data_eda <- read.csv("xxx.csv", header=TRUE)
+```
+
+## Summary using package: skimr
+
+```{r, echo = FALSE}
+fix_windows_histograms()
+skim_with(numeric = list(distinct = n_distinct), integer = list(distinct = n_distinct))
+summary_skim <- skim_to_wide(data_eda)
+```
+
+## Summary using package: summarytools
+
+Function: dfSummary
+
+```{r, echo = FALSE}
+summary_dfsummary <- dfSummary(data_eda, style =  "grid")
+```
+
+## Summary using package: Hmisc
+
+This output is not used in the output file at the moment.
+
+```{r, echo = TRUE}
+(summary_describe <- describe(data_eda))
+```
+
+## Write output to excel workbook
+
+```{r, echo = FALSE}
+write.xlsx(summary_skim, file = "EDA.xlsx", sheetName = "Summary", append = FALSE)
+```
+
+```{r, echo = FALSE}
+for(i in 1:nrow(summary_dfsummary)){
+  sheetname <- strsplit(summary_dfsummary$Variable[i], "[\\\n]")[[1]][1]
+  
+  stats_values <- strsplit(summary_dfsummary[i,3], "[\n]")[[1]]
+  freqs_percofvalid <- strsplit(summary_dfsummary[i,4], "[\n]")[[1]]
+  
+  if(length(stats_values) == length(freqs_percofvalid)){
+    subsummary_dfsummary <- data.frame(stats_values, freqs_percofvalid)  
+  }else{
+    diff <- length(stats_values) - length(freqs_percofvalid)
+    subsummary_dfsummary <- data.frame(stats_values, "freqs_percofvalid" = c(freqs_percofvalid, rep("", diff)))
+  }
+  
+  write.xlsx(subsummary_dfsummary, file = "EDA.xlsx", sheetName = sheetname, append = TRUE, row.names = FALSE) 
+}
+```

@@ -1,0 +1,81 @@
+---
+title: "01_Exploratory Data Analysis"
+author: "Anjali Gupta"
+date: "23 April 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 80)
+```
+
+## Read Data
+
+```{r, echo = TRUE}
+data_eda <- mpg
+```
+
+## Summary using package: skimr
+
+```{r, echo = TRUE}
+library(skimr)
+fix_windows_histograms()
+skim(data_eda)
+```
+
+## Summary using package: summarytools
+
+Function: dfSummary
+
+```{r, echo = TRUE}
+library(summarytools)
+dfSummary(data_eda, style = "grid")#graph.magnif = 0.75,
+```
+
+## Summary using package: Hmisc
+
+```{r, echo = TRUE}
+library(Hmisc)
+
+describe(data_eda)
+```
+
+
+## NOT REQUIRED
+
+## Summary using package: pastecs
+
+Does not summarise character variables.
+
+```{r, echo = TRUE}
+library(pastecs)
+
+stat.desc(data_eda)
+```
+
+## Summary using package: psych
+
+Does not summarise character variables.
+
+```{r, echo = TRUE}
+library(psych)
+
+describe(data_eda)
+```
+
+## Summary using package: summarytools
+
+Function: descr
+
+Does not summarise character variables.
+
+```{r, echo = TRUE}
+
+
+descr(data_eda)
+```
