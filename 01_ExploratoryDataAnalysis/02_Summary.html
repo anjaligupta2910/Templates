@@ -200,7 +200,9 @@ $(document).ready(function () {
 <p><em>PURPOSE</em></p>
 <p>This code creates a detailed <strong>Exploratory Analysis</strong> report for any dataset.</p>
 <p><em>OUTPUT</em></p>
-<p>The output is saved in an excel workbook, where the first worksheet summarises all the fields present in the dataset. The subsequent worksheets summarise individual variables in the dataset.</p>
+<p>The output is saved in <strong>Outputs</strong> folder in an excel workbook - <strong>EDA.xlsx</strong>, where the first worksheet summarises all the fields present in the dataset. The subsequent worksheets summarise individual variables in the dataset.</p>
+<p><em>REQUIREMENT</em></p>
+<p>Specify the input file name in the below R chunk.</p>
 <div id="read-data" class="section level2">
 <h2>Read Data</h2>
 </div>
@@ -317,6 +319,10 @@ $(document).ready(function () {
 ## Frequency          62
 ## Proportion      0.265
 ## --------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="check-if-output-folder-exists-in-the-working-directory-if-not-create-it." class="section level2">
+<h2>Check if ‘Output’ folder exists in the working directory, if not, create it.</h2>
+<pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="write-output-to-excel-workbook" class="section level2">
 <h2>Write output to excel workbook</h2>

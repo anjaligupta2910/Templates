@@ -29,7 +29,7 @@ This code creates a detailed **Exploratory Analysis** report for any dataset.
 
 *OUTPUT*
 
-The output is saved in an excel workbook, where the first worksheet summarises all the fields present in the dataset. The subsequent worksheets summarise individual variables in the dataset.
+The output is saved in **Outputs** folder in an excel workbook - **EDA.xlsx**, where the first worksheet summarises all the fields present in the dataset. The subsequent worksheets summarise individual variables in the dataset.
 
 *REQUIREMENT*
 
@@ -66,10 +66,16 @@ This output is not used in the output file at the moment.
 (summary_describe <- describe(data_eda))
 ```
 
+## Check if 'Output' folder exists in the working directory, if not, create it.
+
+```{r, echo = FALSE}
+ifelse(!dir.exists("Outputs"), dir.create("Outputs"), FALSE)
+```
+
 ## Write output to excel workbook
 
 ```{r, echo = FALSE}
-write.xlsx(summary_skim, file = "EDA.xlsx", sheetName = "Summary", append = FALSE)
+write.xlsx(summary_skim, file = "Outputs/EDA.xlsx", sheetName = "Summary", append = FALSE)
 ```
 
 ```{r, echo = FALSE}
@@ -86,6 +92,6 @@ for(i in 1:nrow(summary_dfsummary)){
     subsummary_dfsummary <- data.frame(stats_values, "freqs_percofvalid" = c(freqs_percofvalid, rep("", diff)))
   }
   
-  write.xlsx(subsummary_dfsummary, file = "EDA.xlsx", sheetName = sheetname, append = TRUE, row.names = FALSE) 
+  write.xlsx(subsummary_dfsummary, file = "Outputs/EDA.xlsx", sheetName = sheetname, append = TRUE, row.names = FALSE) 
 }
 ```
